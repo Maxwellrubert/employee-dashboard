@@ -329,7 +329,7 @@ app.post('/api/send-email', async (req, res) => {
     }
     
     // n8n webhook URL (n8n Cloud instance)
-    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL || 'https://maxwell-rubert.app.n8n.cloud/webhook-test/send-email';
+    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL || 'https://maxwell-rubert.app.n8n.cloud/webhook/send-email';
     
     const emailData = {
       employee: {
