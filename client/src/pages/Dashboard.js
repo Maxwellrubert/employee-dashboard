@@ -7,10 +7,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
   const fetchStats = async () => {
     try {
       setLoading(true);
@@ -18,12 +14,16 @@ const Dashboard = () => {
       setStats(data);
       setError(null);
     } catch (err) {
-      setError('Failed to fetch dashboard statistics');
-      console.error('Dashboard fetch error:', err);
+      console.error('Dashboard stats error:', err);
+      setError('Failed to load dashboard statistics');
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
 
   if (loading) {
     return (

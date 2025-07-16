@@ -12,10 +12,6 @@ const EmployeeManagement = () => {
   const [toast, setToast] = useState(null);
   const [emailLoading, setEmailLoading] = useState({});
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
   const fetchEmployees = async () => {
     try {
       setLoading(true);
@@ -23,11 +19,14 @@ const EmployeeManagement = () => {
       setEmployees(data);
     } catch (error) {
       showToast('Failed to fetch employees', 'error');
-      console.error('Fetch employees error:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
