@@ -17,6 +17,46 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_FILE = path.join(__dirname, 'data', 'employees.json');
 
+// In-memory storage for Vercel serverless deployment
+let employees = [
+  {
+    id: uuidv4(),
+    name: 'John Doe',
+    position: 'Software Engineer',
+    email: 'john.doe@company.com',
+    department: 'Engineering',
+    phone: '+1 (555) 123-4567',
+    startDate: '2023-01-15',
+    salary: 75000,
+    status: 'active',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    name: 'Jane Smith',
+    position: 'Product Manager',
+    email: 'jane.smith@company.com',
+    department: 'Product',
+    phone: '+1 (555) 234-5678',
+    startDate: '2023-03-20',
+    salary: 85000,
+    status: 'active',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: uuidv4(),
+    name: 'Mike Johnson',
+    position: 'UX Designer',
+    email: 'mike.johnson@company.com',
+    department: 'Design',
+    phone: '+1 (555) 345-6789',
+    startDate: '2023-02-10',
+    salary: 70000,
+    status: 'active',
+    createdAt: new Date().toISOString()
+  }
+];
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,8 +67,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-// Ensure data directory exists
+// Ensure data directory exists (development only)
 const ensureDataDirectory = async () => {
+  if (process.env.NODE_ENV === 'production') return;
+  
   const dataDir = path.dirname(DATA_FILE);
   try {
     await fs.access(dataDir);
@@ -37,8 +79,13 @@ const ensureDataDirectory = async () => {
   }
 };
 
-// Initialize data file with sample data
+// Initialize data file with sample data (development only)
 const initializeData = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    console.log('✅ Using in-memory storage for production');
+    return;
+  }
+  
   try {
     await fs.access(DATA_FILE);
   } catch {
@@ -83,6 +130,12 @@ const initializeData = async () => {
 
 // Helper functions
 const readEmployees = async () => {
+  // Use in-memory storage for production (Vercel serverless)
+  if (process.env.NODE_ENV === 'production') {
+    return employees;
+  }
+  
+  // Use file storage for development
   try {
     const data = await fs.readFile(DATA_FILE, 'utf8');
     return JSON.parse(data);
@@ -91,15 +144,42 @@ const readEmployees = async () => {
   }
 };
 
-const writeEmployees = async (employees) => {
-  await fs.writeFile(DATA_FILE, JSON.stringify(employees, null, 2));
+const writeEmployees = async (newEmployees) => {
+  // Use in-memory storage for production (Vercel serverless)
+  if (process.env.NODE_ENV === 'production') {
+    employees = newEmployees;
+    return;
+  }
+  
+  // Use file storage for development
+  await fs.writeFile(DATA_FILE, JSON.stringify(newEmployees, null, 2));
 };
 
 // Routes
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
+  res.json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Debug endpoint
+app.get('/api/debug', async (req, res) => {
+  try {
+    const employeeData = await readEmployees();
+    res.json({
+      environment: process.env.NODE_ENV || 'development',
+      employeeCount: employeeData.length,
+      employees: employeeData,
+      inMemoryStorage: process.env.NODE_ENV === 'production'
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Debug endpoint failed', details: error.message });
+  }
 });
 
 // Get all employees
