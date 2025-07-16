@@ -1,0 +1,25 @@
+{
+  "name": "employee-dashboard",
+  "version": "1.0.0",
+  "description": "Employee Dashboard with CRUD operations and n8n email integration",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && nodemon index.js",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && node index.js",
+    "heroku-postbuild": "npm run install-all && npm run build"
+  },
+  "keywords": ["react", "nodejs", "n8n", "dashboard", "crud"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
