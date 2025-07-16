@@ -92,7 +92,7 @@ app.post('/api/employees', async (req, res) => {
       email,
       department: department || 'General',
       phone: phone || '',
-      startDate: startDate || new Date().toISOString().split('T')[0],
+      start_date: startDate || new Date().toISOString().split('T')[0],
       salary: salary || 0,
       status: 'active'
     });
