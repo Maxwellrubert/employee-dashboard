@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Plus, Edit, Trash2, Mail, Users } from 'lucide-react';
 import { employeeService } from '../services/api';
 import EmployeeModal from '../components/EmployeeModal';
@@ -12,7 +12,12 @@ const EmployeeManagement = () => {
   const [toast, setToast] = useState(null);
   const [emailLoading, setEmailLoading] = useState({});
 
-  const fetchEmployees = async () => {
+  const showToast = useCallback((message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  }, []);
+
+  const fetchEmployees = useCallback(async () => {
     try {
       setLoading(true);
       const data = await employeeService.getAll();
@@ -22,16 +27,11 @@ const EmployeeManagement = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 4000);
-  };
+  }, [fetchEmployees]);
 
   const handleCreate = () => {
     setEditingEmployee(null);
