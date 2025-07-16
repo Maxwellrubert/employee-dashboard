@@ -159,7 +159,6 @@ const employeeDb = {
       .from('employees')
       .update({
         ...employeeData,
-        start_date: employeeData.startDate,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)

@@ -107,7 +107,7 @@ app.post('/api/employees', async (req, res) => {
 // Update employee
 app.put('/api/employees/:id', async (req, res) => {
   try {
-    const { name, position, email, department, phone, startDate, salary, status } = req.body;
+    const { name, position, email, department, phone, start_date, salary, status } = req.body;
     
     // Basic validation
     if (!name || !position || !email) {
@@ -120,7 +120,7 @@ app.put('/api/employees/:id', async (req, res) => {
       email,
       department,
       phone,
-      startDate,
+      start_date,
       salary,
       status
     });
