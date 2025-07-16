@@ -10,7 +10,7 @@
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "build": "cd client && npm run build",
     "start": "cd server && node index.js",
-    "heroku-postbuild": "npm run install-all && npm run build"
+    "vercel-build": "npm run install-all && npm run build"
   },
   "keywords": ["react", "nodejs", "n8n", "dashboard", "crud"],
   "author": "Your Name",

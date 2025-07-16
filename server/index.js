@@ -349,16 +349,24 @@ const startServer = async () => {
     await ensureDataDirectory();
     await initializeData();
     
-    app.listen(PORT, () => {
-      console.log(`✅ Server running on port ${PORT}`);
-      console.log(`📊 Dashboard API: http://localhost:${PORT}/api/dashboard/stats`);
-      console.log(`👥 Employees API: http://localhost:${PORT}/api/employees`);
-      console.log(`📧 Email API: http://localhost:${PORT}/api/send-email`);
-    });
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => {
+        console.log(`✅ Server running on port ${PORT}`);
+        console.log(`📊 Dashboard API: http://localhost:${PORT}/api/dashboard/stats`);
+        console.log(`👥 Employees API: http://localhost:${PORT}/api/employees`);
+        console.log(`📧 Email API: http://localhost:${PORT}/api/send-email`);
+      });
+    }
   } catch (error) {
     console.error('Failed to start server:', error);
-    process.exit(1);
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   }
 };
 
+// Initialize for both development and production
 startServer();
+
+// Export for Vercel
+module.exports = app;
