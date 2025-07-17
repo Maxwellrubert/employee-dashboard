@@ -4,17 +4,17 @@ A modern employee management system with CRUD operations and automated email wor
 
 ## Features
 
-- 📊 Dashboard with employee statistics
-- 👥 Employee management (Create, Read, Update, Delete)
-- 📧 Automated email integration via n8n
-- 🎨 Modern, responsive UI
-- 🔄 Real-time data updates
+- Dashboard with employee statistics
+- Employee management (Create, Read, Update, Delete)
+- Automated email integration via n8n
+- Modern, responsive UI
+- Real-time data updates
 
 ## Tech Stack
 
 - **Frontend**: React, React Router, Axios
 - **Backend**: Node.js, Express
-- **Database**: JSON file (can be upgraded to MongoDB/PostgreSQL)
+- **Database**: Supabase
 - **Automation**: n8n
 - **Styling**: CSS3 with modern design
 
@@ -22,8 +22,8 @@ A modern employee management system with CRUD operations and automated email wor
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+- Node.js
+- npm
 - n8n (for email automation)
 
 ### Installation
