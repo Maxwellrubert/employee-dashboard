@@ -81,4 +81,4 @@ The project uses concurrently to run both frontend and backend in development mo
 
 ## License
 
-MIT License
+MIT Licens
