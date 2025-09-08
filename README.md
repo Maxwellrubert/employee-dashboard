@@ -4,7 +4,7 @@ A modern employee management system with CRUD operations and automated email wor
 
 ## Features
 
-- Dashboard with employee statistics
+- Dashboard with employee statistic
 - Employee management (Create, Read, Update, Delete)
 - Automated email integration via n8n
 - Modern, responsive UI
